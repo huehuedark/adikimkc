@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Pratiksha</title>
+    <style>
+        :root {
+            --pink-light: #ffe4e1;
+            --pink-dark: #ff69b4;
+            --soft-white: #fffafa;
+            --text-color: #4a4a4a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+
+        body {
+            background: var(--pink-light);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Blossom Flower Cursor */
+            cursor: url('https://cdn-icons-png.flaticon.com/32/1043/1043431.png'), auto; 
+        }
+
+        /* Animated Background */
+        .background-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #ffc0cb 0%, #ffe4e1 100%);
+        }
+
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            opacity: 0.5;
+            animation: moveClouds linear infinite;
+        }
+
+        @keyframes moveClouds {
+            from { transform: translateX(-200px); }
+            to { transform: translateX(100vw); }
+        }
+
+        .flower {
+            position: absolute;
+            font-size: 24px;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.6;
+            user-select: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(20deg); }
+        }
+
+        /* Envelope Interaction */
+        #envelope-container {
+            position: relative;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .envelope {
+            width: 260px;
+            height: 170px;
+            background: #f08080;
+            position: relative;
+            margin: 0 auto;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .envelope:hover { transform: scale(1.05); }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            border-left: 130px solid transparent;
+            border-right: 130px solid transparent;
+            border-top: 90px solid #cd5c5c;
+            z-index: 2;
+        }
+
+        .heart {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 50px;
+            color: #e31b23;
+            z-index: 3;
+            animation: beat 1.2s infinite;
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.25); }
+        }
+
+        .envelope-text {
+            margin-top: 25px;
+            color: #d02090;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-shadow: 1px 1px white;
+        }
+
+        /* Slide Content */
+        .slide {
+            display: none;
+            width: 85%;
+            max-width: 380px;
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.75);
+            border-radius: 30px;
+            backdrop-filter: blur(8px);
+            border: 2px solid #fff;
+            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.2);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .typewriter-text {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            min-height: 80px;
+            white-space: pre-wrap; /* Preserves line breaks */
+        }
+
+        .next-btn {
+            margin-top: 25px;
+            padding: 12px 30px;
+            background: var(--pink-dark);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            display: none;
+            box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+        }
+
+        .final-sig {
+            margin-top: 15px;
+            font-style: italic;
+            color: var(--pink-dark);
+            display: block;
+            font-size: 1.3rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="background-container" id="bg"></div>
+
+<div id="envelope-container">
+    <div class="envelope" onclick="openEnvelope()">
+        <div class="heart">❤</div>
+    </div>
+    <p class="envelope-text">Hey Pratiksha, click on my heart</p>
+</div>
+
+<div id="slide-container">
+    <div class="slide" id="slide1"><div class="typewriter-text" id="text1"></div><button class="next-btn" onclick="nextSlide(2)">Continue ❤️</button></div>
+    <div class="slide" id="slide2"><div class="typewriter-text" id="text2"></div><button class="next-btn" onclick="nextSlide(3)">Next ❤️</button></div>
+    <div class="slide" id="slide3"><div class="typewriter-text" id="text3"></div><button class="next-btn" onclick="nextSlide(4)">Next ❤️</button></div>
+    <div class="slide" id="slide4"><div class="typewriter-text" id="text4"></div><button class="next-btn" onclick="nextSlide(5)">Next ❤️</button></div>
+    <div class="slide" id="slide5"><div class="typewriter-text" id="text5"></div><button class="next-btn" onclick="nextSlide(6)">Keep reading ❤️</button></div>
+    <div class="slide" id="slide6"><div class="typewriter-text" id="text6"></div><button class="next-btn" onclick="nextSlide(7)">One last thing...</button></div>
+    
+    <div class="slide" id="slide7">
+        <div class="typewriter-text" id="text7" style="color:#e31b23; font-weight: bold; font-size: 1.3rem;"></div>
+        <div id="signature" style="display:none;" class="final-sig">- From Adi</div>
+    </div>
+</div>
+
+<script>
+    const messages = [
+        "I don't think you realize how much you mean to me.\n\nBeing with you makes ordinary days feel lighter, and even when nothing special is happening, I still feel happy just knowing you're there.",
+        "I love the way you talk, the way you laugh, and the way you're completely yourself. You make me feel comfortable, understood, and calm in a way I didn't expect.",
+        "When something good happens, you're the first person I want to tell. When something goes wrong, you're the person who makes it feel less heavy.",
+        "I don't want to rush anything. I just want to keep choosing you, and sharing moments together.\n\nI can't promise to love you perfectly but I can promise to love you endlessly.",
+        "Even if the oceans began to dry I would still choose you. With my last breath, I'd call you mine.\n\nI could love you for a whole lifetime and still feel like it isn't enough. Every smile you give brightens my darkest days, and every word you speak feels like home.\n\nIf I could, I'd write the stars with your name so the sky itself would know my love for you.",
+        "Your presence has always been making my days special since you've stepped into my life bringing colours in it.",
+        "You're very special to me Pratiksha.\n\nI love you.\n\nI don't know that if this page made you smile but yeah I love you so much."
+    ];
+
+    function createDecorations() {
+        const bg = document.getElementById('bg');
+        for (let i = 0; i < 6; i++) {
+            let cloud = document.createElement('div');
+            cloud.className = 'cloud';
+            cloud.style.width = (Math.random() * 100 + 120) + 'px';
+            cloud.style.height = '45px';
+            cloud.style.top = (Math.random() * 60) + '%';
+            cloud.style.left = '-200px';
+            cloud.style.animationDuration = (Math.random() * 15 + 20) + 's';
+            cloud.style.animationDelay = (Math.random() * 15) + 's';
+            bg.appendChild(cloud);
+        }
+        const flora = ['🌸', '🌺', '🌷', '💮', '💖', '✨'];
+        for (let i = 0; i < 20; i++) {
+            let f = document.createElement('div');
+            f.className = 'flower';
+            f.innerHTML = flora[Math.floor(Math.random() * flora.length)];
+            f.style.left = (Math.random() * 95) + 'vw';
+            f.style.top = (Math.random() * 95) + 'vh';
+            f.style.animationDelay = (Math.random() * 5) + 's';
+            bg.appendChild(f);
+        }
+    }
+
+    function typeWriter(text, elementId, speed = 45, callback) {
+        let i = 0;
+        const element = document.getElementById(elementId);
+        element.innerHTML = "";
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            } else if (callback) {
+                callback();
+            }
+        }
+        type();
+    }
+
+    function openEnvelope() {
+        document.getElementById('envelope-container').style.display = 'none';
+        nextSlide(1);
+    }
+
+    function nextSlide(num) {
+        document.querySelectorAll('.slide').forEach(s => s.style.display = 'none');
+        const currentSlide = document.getElementById('slide' + num);
+        currentSlide.style.display = 'block';
+        
+        const btn = currentSlide.querySelector('.next-btn');
+        if(btn) btn.style.display = 'none';
+
+        typeWriter(messages[num-1], 'text' + num, 45, () => {
+            if(btn) btn.style.display = 'inline-block';
+            if(num === 7) {
+                document.getElementById('signature').style.display = 'block';
+                document.getElementById('signature').style.animation = 'fadeIn 2s';
+            }
+        });
+    }
+
+    window.onload = createDecorations;
+</script>
+
+</body>
+</html>
