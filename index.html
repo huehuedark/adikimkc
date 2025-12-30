@@ -23,25 +23,19 @@
             overflow: hidden;
             text-align: center;
             color: var(--text-color);
-            cursor: none; /* We will use the moon as the cursor pointer */
         }
 
-        /* Floating Moon Cursor */
+        /* Fixed Moon - No longer moves */
         #moon {
             position: fixed;
-            width: 60px;
-            height: 60px;
+            top: 40px;
+            right: 40px;
+            width: 80px;
+            height: 80px;
             background: #fdfae1;
             border-radius: 50%;
-            box-shadow: 0 0 20px #fdfae1, 0 0 60px rgba(255,255,255,0.4);
-            pointer-events: none;
-            z-index: 999;
-            transition: transform 0.1s ease-out;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 10px;
-            color: rgba(0,0,0,0.2);
+            box-shadow: 0 0 30px #fdfae1, 0 0 80px rgba(255,255,255,0.3);
+            z-index: 1;
         }
 
         .stars {
@@ -69,7 +63,7 @@
             font-family: 'Courier New', Courier, monospace;
         }
 
-        /* Content containers */
+        /* Content Containers */
         .screen { 
             display: none; 
             flex-direction: column; 
@@ -87,7 +81,6 @@
             text-shadow: 0 0 15px rgba(255, 77, 109, 0.6);
         }
 
-        /* Letter Styling */
         .letter-content {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px);
@@ -99,7 +92,6 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.8);
         }
 
         #letterText {
@@ -107,18 +99,15 @@
             font-size: 1.85rem;
             min-height: 150px;
             margin-bottom: 20px;
+            white-space: pre-line;
         }
 
-        .btns { margin-top: 20px; display: flex; gap: 20px; justify-content: center; }
-        
         button {
             padding: 12px 35px; font-size: 1.1rem; border: none; border-radius: 50px;
             cursor: pointer; transition: 0.3s; background: var(--primary); color: white;
             font-family: 'Quicksand', sans-serif; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
-            z-index: 1001; /* Ensure buttons are clickable above moon cursor */
         }
 
-        /* Envelope */
         .envelope-wrapper { cursor: pointer; position: relative; width: 180px; height: 120px; background: #ff8fa3; margin-top: 50px; border-radius: 0 0 10px 10px; }
         .envelope-wrapper::before {
             content: ''; position: absolute; top: -80px; left: 0; border-left: 90px solid transparent;
@@ -137,31 +126,29 @@
     <div id="moon"></div>
     <div class="stars"></div>
 
-    <audio id="bgMusic" loop>
+    <audio id="bgMusic" loop preload="auto">
         <source src="love-story.mp3" type="audio/mpeg">
     </audio>
 
     <div id="loading-screen">
         <div style="letter-spacing: 3px; font-size: 0.9rem; opacity: 0.7;">MEASURING LOVE FOR AVINYA...</div>
         <div id="counter">0%</div>
-        <div id="status" style="margin-top: 15px; color: #ff8fa3; font-weight: bold;">Initialising...</div>
+        <div id="status" style="margin-top: 15px; color: #ff8fa3;">Initialising...</div>
     </div>
 
     <div id="screen1" class="screen">
         <h1>Hey Avinya,</h1>
         <p>Do you love me?</p>
         <div class="btns">
-            <button onclick="showScreen('screenEnvelope')">Yes</button>
-            <button onclick="showScreen('screenAngry')" style="background: #333;">No</button>
+            <button onclick="handleYes()">Yes</button>
+            <button onclick="showScreen('screenAngry')" style="background: #333; margin-left: 10px;">No</button>
         </div>
     </div>
 
     <div id="screenAngry" class="screen">
         <h1 style="font-size: 5rem;">😤</h1>
         <h1>How dare you!!</h1>
-        <div class="btns">
-            <button onclick="showScreen('screen1')">Retry</button>
-        </div>
+        <button onclick="showScreen('screen1')" style="margin-top: 20px;">Retry</button>
     </div>
 
     <div id="screenEnvelope" class="screen">
@@ -175,15 +162,12 @@
     <div id="screenLetter" class="screen">
         <div class="letter-content">
             <p id="letterText"></p>
-            <div class="btns">
-                <button id="nextBtn" onclick="nextPage()" style="display: none;">Next</button>
-            </div>
+            <button id="nextBtn" onclick="nextPage()" style="display: none; align-self: center;">Next</button>
         </div>
     </div>
 
     <script>
         const music = document.getElementById('bgMusic');
-        const moon = document.getElementById('moon');
         const textEl = document.getElementById('letterText');
         const nextBtn = document.getElementById('nextBtn');
         let currentPage = 0;
@@ -197,23 +181,19 @@
             "Your Presence Makes My Days Better.\n\nI love you.\n\n~Dark in"
         ];
 
-        // Moon Follow Logic
-        document.addEventListener('mousemove', (e) => {
-            moon.style.left = e.clientX - 30 + 'px';
-            moon.style.top = e.clientY - 30 + 'px';
-        });
+        // Ensure music plays on the first 'Yes' click
+        function handleYes() {
+            music.play().catch(e => console.log("Audio play failed: ", e));
+            showScreen('screenEnvelope');
+        }
 
         // Loading Logic
         window.addEventListener('load', () => {
             let count = 0;
             const counterElement = document.getElementById('counter');
-            const statusElement = document.getElementById('status');
-            
             const interval = setInterval(() => {
-                count += Math.floor(Math.random() * 7) + 2;
-                if (count >= 100 && count < 300) statusElement.innerText = "BREAKING LIMITS...";
+                count += Math.floor(Math.random() * 10) + 5;
                 if (count >= 1000) {
-                    statusElement.innerText = "ERROR: LOVE INFINITE ❤️";
                     clearInterval(interval);
                     setTimeout(() => {
                         document.getElementById('loading-screen').style.opacity = '0';
@@ -221,10 +201,10 @@
                             document.getElementById('loading-screen').style.display = 'none';
                             showScreen('screen1');
                         }, 1000);
-                    }, 1000);
+                    }, 800);
                 }
                 counterElement.innerText = count + "%";
-            }, 40);
+            }, 50);
         });
 
         function showScreen(screenId) {
@@ -233,7 +213,7 @@
         }
 
         function startLetter() {
-            music.play();
+            music.play(); // Backup play call
             showScreen('screenLetter');
             typeWriter(messages[currentPage]);
             confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
@@ -244,7 +224,7 @@
             nextBtn.style.display = 'none';
             if (i < text.length) {
                 textEl.innerHTML = text.substring(0, i + 1);
-                setTimeout(() => typeWriter(text, i + 1), 50);
+                setTimeout(() => typeWriter(text, i + 1), 40);
             } else {
                 isTyping = false;
                 nextBtn.style.display = 'inline-block';
